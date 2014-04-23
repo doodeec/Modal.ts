@@ -3,7 +3,9 @@ export interface IModalElement {
     body: HTMLDivElement;
     footer: HTMLDivElement;
     buttons: HTMLButtonElement[];
-    addBtn(string): IModalElement;
+    addBtn(string): void;
+    setMessage(string): void;
+    getElement(): HTMLDivElement;
 }
 
 export class ModalElement implements IModalElement {
@@ -23,7 +25,19 @@ export class ModalElement implements IModalElement {
         var newButton = document.createElement("button");
         newButton.innerHTML = btnText;
         this.buttons.push(newButton);
-        return this;
+        this.footer.appendChild(newButton);
+    }
+
+    setMessage(msg: string) {
+        this.body.innerHTML = msg;
+    }
+
+    getElement() {
+        var modalEl = document.createElement("div");
+        modalEl.appendChild(this.header);
+        modalEl.appendChild(this.body);
+        modalEl.appendChild(this.footer);
+        return modalEl;
     }
 }
 
@@ -45,6 +59,7 @@ export class ModalWindow implements IModalWindow {
 
     constructor() {
         this.opened = false;
+        this.createElement();
     }
 
     close() {
@@ -55,6 +70,7 @@ export class ModalWindow implements IModalWindow {
 
     open() {
         if (typeof this.message == 'undefined') return this;
+        document.body.appendChild(this.modalElement.getElement());
         this.opened = true;
         console.log("Modal opened", this.message);
         return this;
@@ -62,6 +78,7 @@ export class ModalWindow implements IModalWindow {
 
     setMessage(message: string) {
         this.message = message;
+        this.modalElement.setMessage(message);
         return this;
     }
 

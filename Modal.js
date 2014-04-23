@@ -10,7 +10,19 @@ define(["require", "exports"], function(require, exports) {
             var newButton = document.createElement("button");
             newButton.innerHTML = btnText;
             this.buttons.push(newButton);
-            return this;
+            this.footer.appendChild(newButton);
+        };
+
+        ModalElement.prototype.setMessage = function (msg) {
+            this.body.innerHTML = msg;
+        };
+
+        ModalElement.prototype.getElement = function () {
+            var modalEl = document.createElement("div");
+            modalEl.appendChild(this.header);
+            modalEl.appendChild(this.body);
+            modalEl.appendChild(this.footer);
+            return modalEl;
         };
         return ModalElement;
     })();
@@ -19,6 +31,7 @@ define(["require", "exports"], function(require, exports) {
     var ModalWindow = (function () {
         function ModalWindow() {
             this.opened = false;
+            this.createElement();
         }
         ModalWindow.prototype.close = function () {
             this.opened = false;
@@ -29,6 +42,7 @@ define(["require", "exports"], function(require, exports) {
         ModalWindow.prototype.open = function () {
             if (typeof this.message == 'undefined')
                 return this;
+            document.body.appendChild(this.modalElement.getElement());
             this.opened = true;
             console.log("Modal opened", this.message);
             return this;
@@ -36,6 +50,7 @@ define(["require", "exports"], function(require, exports) {
 
         ModalWindow.prototype.setMessage = function (message) {
             this.message = message;
+            this.modalElement.setMessage(message);
             return this;
         };
 
