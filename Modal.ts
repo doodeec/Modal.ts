@@ -5,6 +5,7 @@ export interface IModalElement {
     buttons: HTMLButtonElement[];
     addBtn(string): IModalElement;
 }
+
 export class ModalElement implements IModalElement {
     header: HTMLDivElement;
     body: HTMLDivElement;

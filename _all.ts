@@ -1,5 +1,3 @@
-/// <reference path="Modal.ts" />
-
 import Modal = require('./Modal');
 
 function openModal() {

@@ -1,4 +1,3 @@
-/// <reference path="Modal.ts" />
 define(["require", "exports", './Modal'], function(require, exports, Modal) {
     function openModal() {
         var mod = new Modal.ModalWindow();
