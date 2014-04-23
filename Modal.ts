@@ -3,7 +3,7 @@ export interface IModalElement {
     body: HTMLDivElement;
     footer: HTMLDivElement;
     buttons: HTMLButtonElement[];
-    addBtn(string): void;
+    addBtn(string): HTMLButtonElement;
     setMessage(string): void;
     getElement(): HTMLDivElement;
 }
@@ -26,6 +26,7 @@ export class ModalElement implements IModalElement {
         newButton.innerHTML = btnText;
         this.buttons.push(newButton);
         this.footer.appendChild(newButton);
+        return newButton;
     }
 
     setMessage(msg: string) {
@@ -34,7 +35,9 @@ export class ModalElement implements IModalElement {
 
     getElement() {
         var modalEl = document.createElement("div");
-        modalEl.appendChild(this.header);
+        if (this.header.innerHTML) {
+            modalEl.appendChild(this.header);
+        }
         modalEl.appendChild(this.body);
         modalEl.appendChild(this.footer);
         return modalEl;
@@ -82,8 +85,15 @@ export class ModalWindow implements IModalWindow {
         return this;
     }
 
+    buttonClick(e: MouseEvent) {
+        console.log('click');
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
     addButton(btnMessage: string) {
-        this.modalElement.addBtn(btnMessage);
+        var button = this.modalElement.addBtn(btnMessage);
+        button.addEventListener('click', this.buttonClick);
         return this;
     }
 

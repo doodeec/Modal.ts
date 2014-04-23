@@ -11,6 +11,7 @@ define(["require", "exports"], function(require, exports) {
             newButton.innerHTML = btnText;
             this.buttons.push(newButton);
             this.footer.appendChild(newButton);
+            return newButton;
         };
 
         ModalElement.prototype.setMessage = function (msg) {
@@ -19,7 +20,9 @@ define(["require", "exports"], function(require, exports) {
 
         ModalElement.prototype.getElement = function () {
             var modalEl = document.createElement("div");
-            modalEl.appendChild(this.header);
+            if (this.header.innerHTML) {
+                modalEl.appendChild(this.header);
+            }
             modalEl.appendChild(this.body);
             modalEl.appendChild(this.footer);
             return modalEl;
@@ -54,8 +57,15 @@ define(["require", "exports"], function(require, exports) {
             return this;
         };
 
+        ModalWindow.prototype.buttonClick = function (e) {
+            console.log('click');
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
         ModalWindow.prototype.addButton = function (btnMessage) {
-            this.modalElement.addBtn(btnMessage);
+            var button = this.modalElement.addBtn(btnMessage);
+            button.addEventListener('click', this.buttonClick);
             return this;
         };
 
