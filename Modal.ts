@@ -3,12 +3,16 @@ export interface IModalActions {
     message: string;
     open(): IModalActions;
     close(): IModalActions;
+    setMessage(string): IModalActions;
 }
 
-export class ModalActions implements IModalActions {
+export class ModalWindow implements IModalActions {
     opened: boolean;
+    message: string;
 
-    constructor(public message: string) {}
+    constructor() {
+        this.opened = false;
+    }
 
     close() {
         this.opened = false;
@@ -21,11 +25,9 @@ export class ModalActions implements IModalActions {
         console.log("Modal opened", this.message);
         return this;
     }
-}
 
-export class ModalWindow extends ModalActions {
-    constructor(message:string) {
-        super(message);
-        this.opened = false;
+    setMessage(message: string) {
+        this.message = message;
+        return this;
     }
 }
