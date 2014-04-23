@@ -8,9 +8,6 @@
     "requirejs": "^2.1.11"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "modal",
     "typescript"
