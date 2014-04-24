@@ -1,4 +1,5 @@
 export interface IModalElement {
+    element: HTMLDivElement;
     header: HTMLDivElement;
     body: HTMLDivElement;
     footer: HTMLDivElement;
@@ -9,6 +10,7 @@ export interface IModalElement {
 }
 
 export class ModalElement implements IModalElement {
+    element:HTMLDivElement;
     header:HTMLDivElement;
     body:HTMLDivElement;
     footer:HTMLDivElement;
@@ -66,6 +68,7 @@ export class ModalWindow implements IModalWindow {
     }
 
     close() {
+        document.body.removeChild(this.modalElement.element);
         this.opened = false;
         console.log("Modal closed");
         return this;
@@ -73,7 +76,8 @@ export class ModalWindow implements IModalWindow {
 
     open() {
         if (typeof this.message == 'undefined') return this;
-        document.body.appendChild(this.modalElement.getElement());
+        this.modalElement.element = this.modalElement.getElement();
+        document.body.appendChild(this.modalElement.element);
         this.opened = true;
         console.log("Modal opened", this.message);
         return this;
@@ -85,10 +89,12 @@ export class ModalWindow implements IModalWindow {
         return this;
     }
 
-    addButton(btnMessage:string, action:Function = this.close) {
-        var button = this.modalElement.addBtn(btnMessage);
-        button.addEventListener('click', function() {
-            action();
+    addButton(btnMessage:string, action?:Function) {
+        var button = this.modalElement.addBtn(btnMessage),
+            modal = this;
+        button.addEventListener('click', function () {
+            if (action) action.call(modal);
+            modal.close();
         });
         return this;
     }

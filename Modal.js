@@ -37,6 +37,7 @@ define(["require", "exports"], function(require, exports) {
             this.createElement();
         }
         ModalWindow.prototype.close = function () {
+            document.body.removeChild(this.modalElement.element);
             this.opened = false;
             console.log("Modal closed");
             return this;
@@ -45,7 +46,8 @@ define(["require", "exports"], function(require, exports) {
         ModalWindow.prototype.open = function () {
             if (typeof this.message == 'undefined')
                 return this;
-            document.body.appendChild(this.modalElement.getElement());
+            this.modalElement.element = this.modalElement.getElement();
+            document.body.appendChild(this.modalElement.element);
             this.opened = true;
             console.log("Modal opened", this.message);
             return this;
@@ -58,10 +60,11 @@ define(["require", "exports"], function(require, exports) {
         };
 
         ModalWindow.prototype.addButton = function (btnMessage, action) {
-            if (typeof action === "undefined") { action = this.close; }
-            var button = this.modalElement.addBtn(btnMessage);
+            var button = this.modalElement.addBtn(btnMessage), modal = this;
             button.addEventListener('click', function () {
-                action();
+                if (action)
+                    action.call(modal);
+                modal.close();
             });
             return this;
         };
