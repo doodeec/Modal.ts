@@ -21,6 +21,10 @@ export class ModalElement implements IModalElement {
         this.body = document.createElement("div");
         this.footer = document.createElement("div");
         this.buttons = [];
+
+        this.header.className = "modal-header";
+        this.body.className = "modal-body";
+        this.footer.className = "modal-footer";
     }
 
     addBtn(btnText:string) {
@@ -37,6 +41,7 @@ export class ModalElement implements IModalElement {
 
     getElement() {
         var modalEl = document.createElement("div");
+        modalEl.className = "modal";
         if (this.header.innerHTML) {
             modalEl.appendChild(this.header);
         }
