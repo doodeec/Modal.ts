@@ -6,6 +6,15 @@ a {
   text-decoration: none;
   display: inline-block; }
 
+button {
+  color: white;
+  cursor: pointer;
+  background: #999999;
+  border: 1px solid #777777;
+  padding: 0.3em 0.7em; }
+  button:hover, button:active, button:focus {
+    background: #777777; }
+
 .modal {
   position: absolute;
   top: 50%;
@@ -27,11 +36,3 @@ a {
 .modal-footer {
   padding: 0.5em 1em;
   text-align: center; }
-  .modal-footer button {
-    color: white;
-    cursor: pointer;
-    background: #999999;
-    border: 1px solid #777777;
-    padding: 0.3em 0.7em; }
-    .modal-footer button:hover, .modal-footer button:active, .modal-footer button:focus {
-      background: #777777; }
