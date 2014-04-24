@@ -57,15 +57,12 @@ define(["require", "exports"], function(require, exports) {
             return this;
         };
 
-        ModalWindow.prototype.buttonClick = function (e) {
-            console.log('click');
-            e.preventDefault();
-            e.stopPropagation();
-        };
-
-        ModalWindow.prototype.addButton = function (btnMessage) {
+        ModalWindow.prototype.addButton = function (btnMessage, action) {
+            if (typeof action === "undefined") { action = this.close; }
             var button = this.modalElement.addBtn(btnMessage);
-            button.addEventListener('click', this.buttonClick);
+            button.addEventListener('click', function () {
+                action();
+            });
             return this;
         };
 

@@ -9,10 +9,10 @@ export interface IModalElement {
 }
 
 export class ModalElement implements IModalElement {
-    header: HTMLDivElement;
-    body: HTMLDivElement;
-    footer: HTMLDivElement;
-    buttons: HTMLButtonElement[];
+    header:HTMLDivElement;
+    body:HTMLDivElement;
+    footer:HTMLDivElement;
+    buttons:HTMLButtonElement[];
 
     constructor() {
         this.header = document.createElement("div");
@@ -21,7 +21,7 @@ export class ModalElement implements IModalElement {
         this.buttons = [];
     }
 
-    addBtn(btnText: string) {
+    addBtn(btnText:string) {
         var newButton = document.createElement("button");
         newButton.innerHTML = btnText;
         this.buttons.push(newButton);
@@ -29,7 +29,7 @@ export class ModalElement implements IModalElement {
         return newButton;
     }
 
-    setMessage(msg: string) {
+    setMessage(msg:string) {
         this.body.innerHTML = msg;
     }
 
@@ -51,14 +51,14 @@ export interface IModalWindow {
     open(): IModalWindow;
     close(): IModalWindow;
     setMessage(string): IModalWindow;
-    addButton(string): IModalWindow;
+    addButton(string, Function): IModalWindow;
     createElement(): boolean;
 }
 
 export class ModalWindow implements IModalWindow {
-    opened: boolean;
-    message: string;
-    modalElement: ModalElement;
+    opened:boolean;
+    message:string;
+    modalElement:ModalElement;
 
     constructor() {
         this.opened = false;
@@ -79,21 +79,17 @@ export class ModalWindow implements IModalWindow {
         return this;
     }
 
-    setMessage(message: string) {
+    setMessage(message:string) {
         this.message = message;
         this.modalElement.setMessage(message);
         return this;
     }
 
-    buttonClick(e: MouseEvent) {
-        console.log('click');
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    addButton(btnMessage: string) {
+    addButton(btnMessage:string, action:Function = this.close) {
         var button = this.modalElement.addBtn(btnMessage);
-        button.addEventListener('click', this.buttonClick);
+        button.addEventListener('click', function() {
+            action();
+        });
         return this;
     }
 
